@@ -11,9 +11,9 @@ from torch.utils.data import Dataset, DataLoader
 import time
 
 parser = argparse.ArgumentParser(description='Point Cloud Recognition')
-parser.add_argument('--checkpoint', type=str, default="models/ecnds.tar")
+parser.add_argument('--checkpoint', type=str, default="models/ecnds_f3.tar")
 parser.add_argument("--steps", type=int, default=5)
-parser.add_argument("--batch_size", type=int, default = 4)
+parser.add_argument("--batch_size", type=int, default = 1)
 parser.add_argument("--model", type=str, default = "ECNDS")
 args = parser.parse_args()
 
@@ -83,17 +83,10 @@ with torch.no_grad():
             history_emd2[k].extend(emd2)
 
         print(i, end="\r")
-        if i%200 == 0:
-            for k in range(args.steps):
-                print(np.mean(history_cd2[k]))
-                print(np.mean(history_emd2[k]))
-            # print(np.mean(history_time))
-            # print(np.mean(history_mem))
-            print()
 
     np.save("our_history_cd.npy", np.array(history_cd2))
     np.save("our_history_emd.npy", np.array(history_emd2))
 
     for i in range(args.steps):
-        print(np.mean(history_cd2[i]))
-        print(np.mean(history_emd2[i]))
+        print("CD frame " + str(i+1) + ": " + str(np.mean(history_cd2[i])))
+        print("EMD frame " + str(i+1) + ": " + str(np.mean(history_emd2[i])))

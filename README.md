@@ -8,7 +8,7 @@ and [PyTorchEMD](https://github.com/daerduoCarey/PyTorchEMD).
 ## Installation
 This code is tested on Python 3.6.9, PyTorch 1.4.0, CUDA 10.2, and Pop!_OS 18.04. 
 There are also dependencies on Python packages like Scipy and TensorBoard. 
-To evaluate, we recommend you have at least 2 GB of GPU memory available,
+To evaluate, we recommend you have at least 5 GB of GPU memory available,
 and to train, we recommend 24 GB.  
 
 To compile the CUDA kernels for flownet3d_pytorch and PyTorchEMD, 
@@ -22,15 +22,19 @@ cp build/lib.linux-x86_64-3.6/emd_cuda.cpython-36m-x86_64-linux-gnu.so .
 cd ..
 ```
 ##Usage
+
 ###Data preparation
 Download the [nuScenes dataset](nuscenes.org) and extract to `/path/to/nuscenes`. 
-Then run save_batches.py with the appropriate arguments to preprocess the data. 
+Then run `python save_batches.py` with the appropriate arguments to preprocess the data. 
 This may take a while, especially on the training data. 
 ```bash
 python save_batches.py --nuscenes_dir /path/to/nuscenes --mode train
 python save_batches.py --nuscenes_dir /path/to/nuscenes --mode val
 python save_batches.py --nuscenes_dir /path/to/nuscenes --mode test
 ```
+We've also included an example processed point cloud sequence in each of the data directories.
+Feel free to remove it if you intend to download the dataset.
+
 ###Train
 To train, run `python train.py`. You can can adjust the input arguments.
 The defaults are what we used to train EC w/o DS. The model is saved as `checkpoint.tar`. 

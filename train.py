@@ -41,8 +41,6 @@ def save_model(epoch, model, optimizer, scheduler):
 
 def train():
 
-    write_freq = 500
-
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     traindata = LoadData(args.train_dir, args.steps)
@@ -50,7 +48,7 @@ def train():
     valdata = LoadData(args.val_dir, args.steps)
     datav = DataLoader(valdata, batch_size = 1, shuffle = True, num_workers = 0)
 
-    write_step = int(len(traindata)/write_freq/args.batch_size)
+    write_step = 20
 
     if args.model == 'ECNDS':
         model = ECNDS(args.knn_step, args.k)
