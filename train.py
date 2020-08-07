@@ -47,7 +47,7 @@ def train():
 
     traindata = LoadData(args.train_dir, args.steps)
     data = DataLoader(traindata, batch_size = args.batch_size, shuffle = True, num_workers = 4)
-    valdata = LoadData(args.val_dir, args.steps, length = 2500)
+    valdata = LoadData(args.val_dir, args.steps)
     datav = DataLoader(valdata, batch_size = 1, shuffle = True, num_workers = 0)
 
     write_step = int(len(traindata)/write_freq/args.batch_size)
@@ -155,19 +155,17 @@ def train():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Point Cloud Recognition')
-    parser.add_argument('--epochs', type=int, default=2, metavar='N',
-                        help='number of episode to train ')
-    parser.add_argument('--batch_size', type=int, default=4, metavar='batch_size',
-                        help='Size of batch)')
+    parser.add_argument('--epochs', type=int, default=2, help='number of episode to train ')
+    parser.add_argument('--batch_size', type=int, default=4, help='Size of batch)')
     parser.add_argument('--lr', type = float, default = .00001, metavar='lr', help='learning rate')
     parser.add_argument('--load_checkpoint', type = str, default = "", help='location of model checkpoint; if training from scratch use empty string')
-    parser.add_argument('--knn_step', type = int, default = 2200, help = 'points per batch of knn')
+    parser.add_argument('--knn_step', type = int, default = 500, help = 'points per batch of knn in EC')
     parser.add_argument('--train_dir', type = str, default = "train_data")
     parser.add_argument('--val_dir', type = str, default = "validation_data")
     parser.add_argument('--grad_step_size', type = int, default = 8, help = 'number of batches before updating weights')
-    parser.add_argument('--k', type = int, default = 16)
-    parser.add_argument('--cd_weight', type = float, default = 1.0)
-    parser.add_argument('--emd_weight', type = float, default = .02)
+    parser.add_argument('--k', type = int, default = 16, help='k in knn for EC')
+    parser.add_argument('--cd_weight', type = float, default = 1.0, help = 'cd weight in loss function')
+    parser.add_argument('--emd_weight', type = float, default = .02, help = 'emd weight in loss function')
     parser.add_argument('--steps', type = int, default = 1, help = 'number of steps into the future')
     parser.add_argument('--mode', type = str, default = "train", help = 'training mode')
     parser.add_argument('--model', type = str, default = "ECNDS", help = 'which model to train')

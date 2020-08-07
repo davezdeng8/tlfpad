@@ -28,21 +28,27 @@ def load(directory, version, batch_size):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='save batches')
-    parser.add_argument('--which', type = str, default = "train", help='train or test')
-    parser.add_argument('--nuscenes_dir', type = str, default = "data/sets/nuscenes/", help='location of nuscenes dataset')
+    parser.add_argument('--mode', type = str, default = "train", help='train, val, or test')
+    parser.add_argument('--nuscenes_dir', type = str, default = "/data/sets/nuscenes/", help='location of nuscenes dataset')
     args = parser.parse_args()
 
-    if args.which == "train":
+    if args.mode == "train":
         train = load(args.nuscenes_dir, "v1.0-trainval", 8)
         directory = "train_data"
         for i, batch in enumerate(train):
             torch.save(batch, directory + "/training_batch_" + str(i) + ".pt")
             print(i, end="\r")
-    elif args.which == "test":
-        test = load(args.nuscenes_dir, "v1.0-test", 8)
+    elif args.mode == "val":
+        val = load(args.nuscenes_dir, "v1.0-test", 8)
         directory = "validation_data"
+        for i, batch in enumerate(val):
+            torch.save(batch, directory + "/val_batch_" + str(i) + ".pt")
+            print(i, end="\r")
+    elif args.mode == "test":
+        test = load(args.nuscenes_dir, "v1.0-test", 14)
+        directory = "test_data"
         for i, batch in enumerate(test):
             torch.save(batch, directory + "/test_batch_" + str(i) + ".pt")
             print(i, end="\r")
     else:
-        print("put train or test")
+        print("put train, val, or test")
