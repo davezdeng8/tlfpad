@@ -1,9 +1,7 @@
 # Temporal LiDAR Frame Prediction for Autonomous Driving
 
 [David Deng](https://davezdeng8.github.io/) and [Avideh Zakhor](http://www-video.eecs.berkeley.edu/~avz/)
-
 [paper](http://www-video.eecs.berkeley.edu/papers/davidDeng/3dv2020_camera_ready.pdf)
-
 In 3DV 2020
 
 <img src="teaser.gif" width="500">
